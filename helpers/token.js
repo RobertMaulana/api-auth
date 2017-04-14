@@ -1,5 +1,4 @@
 let jwt = require('jsonwebtoken');
-let db = require("../models");
 require('dotenv').config()
 
 let verifyToken = (req, res, next) => {

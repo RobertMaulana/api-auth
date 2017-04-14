@@ -90,11 +90,16 @@ let updateUser = (req, res) => {
 
 let signupUser = (req, res) => {
   db.User
-    .create(
-      {nama: req.body.nama, email: req.body.email, password: passwordHash.generate(req.body.password), role: req.body.role}
-    )
+    .findOrCreate({
+      where: {email: req.body.email},
+      defaults: {nama: req.body.nama, email: req.body.email, password: passwordHash.generate(req.body.password), role: req.body.role}
+    })
     .then((data) => {
-      res.send(data)
+      if (data) {
+        res.send("Email already use!")
+      }else {
+        res.send(data)
+      }
     })
     .catch((err) => {
       res.send(err.message)
